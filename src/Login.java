@@ -49,6 +49,11 @@ public class Login extends javax.swing.JFrame {
 
         btnIniciar.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         btnIniciar.setText("Entrar");
+        btnIniciar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnIniciarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -106,6 +111,10 @@ public class Login extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnIniciarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIniciarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnIniciarActionPerformed
 
     /**
      * @param args the command line arguments
