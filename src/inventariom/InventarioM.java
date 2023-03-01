@@ -15,6 +15,9 @@ public class InventarioM {
      */
     public static void main(String[] args) {
         // TODO code application logic here
+        Login obLogin = new Login();
+        obLogin.setVisible(true);
+     
     }
     
 }

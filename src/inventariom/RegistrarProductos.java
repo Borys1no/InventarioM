@@ -1,3 +1,13 @@
+package inventariom;
+
+
+import clases.Producto;
+import com.mysql.cj.xdevapi.PreparableStatement;
+import com.sun.jdi.connect.spi.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JInternalFrame.java to edit this template
@@ -9,9 +19,8 @@
  */
 public class RegistrarProductos extends javax.swing.JInternalFrame {
 
-    /**
-     * Creates new form RegistrarProductos
-     */
+  
+   
     public RegistrarProductos() {
         initComponents();
     }
@@ -41,7 +50,7 @@ public class RegistrarProductos extends javax.swing.JInternalFrame {
         txtFechaCaducidad = new com.toedter.calendar.JDateChooser();
         jLabel8 = new javax.swing.JLabel();
         txtProveedor = new javax.swing.JTextField();
-        jButton2 = new javax.swing.JButton();
+        btnGuardar = new javax.swing.JButton();
 
         setClosable(true);
         setIconifiable(true);
@@ -80,8 +89,13 @@ public class RegistrarProductos extends javax.swing.JInternalFrame {
         jLabel8.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         jLabel8.setText("Proveedor");
 
-        jButton2.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        jButton2.setText("Guardar ");
+        btnGuardar.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        btnGuardar.setText("Guardar ");
+        btnGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuardarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -103,14 +117,11 @@ public class RegistrarProductos extends javax.swing.JInternalFrame {
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                 .addComponent(txtCantidad, javax.swing.GroupLayout.Alignment.LEADING)
                                 .addGroup(jPanel1Layout.createSequentialGroup()
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addComponent(jLabel2)
                                         .addComponent(jLabel3))
                                     .addGap(97, 97, 97)))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jLabel5)))))
+                            .addComponent(jLabel5))))
                 .addGap(175, 175, 175)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(txtProveedor)
@@ -124,7 +135,7 @@ public class RegistrarProductos extends javax.swing.JInternalFrame {
                 .addGap(112, 112, 112))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(278, 278, 278)
-                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -161,7 +172,7 @@ public class RegistrarProductos extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtProveedor, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
-                .addComponent(jButton2)
+                .addComponent(btnGuardar)
                 .addGap(30, 30, 30))
         );
 
@@ -179,10 +190,20 @@ public class RegistrarProductos extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
+       Producto obProducto = new Producto();
+        try {
+            obProducto.InsertarProducto(txtNombreP, txtCantidad, txtPrecio, txtFecha, cbxTipo, txtFechaCaducidad, txtProveedor);
+        } catch (SQLException ex) {
+            Logger.getLogger(RegistrarProductos.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }//GEN-LAST:event_btnGuardarActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnGuardar;
     private javax.swing.JComboBox<String> cbxTipo;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -199,4 +220,7 @@ public class RegistrarProductos extends javax.swing.JInternalFrame {
     private javax.swing.JTextField txtPrecio;
     private javax.swing.JTextField txtProveedor;
     // End of variables declaration//GEN-END:variables
+
+
+
 }

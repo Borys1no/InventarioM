@@ -1,3 +1,5 @@
+package inventariom;
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
@@ -54,6 +56,11 @@ public class Principal extends javax.swing.JFrame {
         jMenuBar1.setBackground(new java.awt.Color(43, 144, 200));
 
         jMenu2.setText("Productos");
+        jMenu2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenu2ActionPerformed(evt);
+            }
+        });
 
         OpProductos.setText("Ver Productos");
         OpProductos.addActionListener(new java.awt.event.ActionListener() {
@@ -64,6 +71,11 @@ public class Principal extends javax.swing.JFrame {
         jMenu2.add(OpProductos);
 
         OpAgg.setText("Agregar Productos");
+        OpAgg.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                OpAggActionPerformed(evt);
+            }
+        });
         jMenu2.add(OpAgg);
 
         OpInventario.setText("Inventario Productos");
@@ -72,6 +84,11 @@ public class Principal extends javax.swing.JFrame {
         jMenuBar1.add(jMenu2);
 
         jMenu1.setText("Salida");
+        jMenu1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenu1ActionPerformed(evt);
+            }
+        });
 
         jMenuItem6.setText("Registrar Salida");
         jMenu1.add(jMenuItem6);
@@ -112,7 +129,25 @@ public class Principal extends javax.swing.JFrame {
         ListaProductos viewWindow = new ListaProductos();
         PnlEscritorio.add(viewWindow);
         viewWindow.show();
+        
+        
     }//GEN-LAST:event_OpProductosActionPerformed
+
+    private void jMenu2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu2ActionPerformed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_jMenu2ActionPerformed
+
+    private void OpAggActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OpAggActionPerformed
+        // TODO add your handling code here:
+        RegistrarProductos viewWindow2 = new RegistrarProductos();
+        PnlEscritorio.add(viewWindow2);
+        viewWindow2.show();
+    }//GEN-LAST:event_OpAggActionPerformed
+
+    private void jMenu1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenu1ActionPerformed
 
     /**
      * @param args the command line arguments
