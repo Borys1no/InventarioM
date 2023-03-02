@@ -16,7 +16,7 @@ public class Conexion {
     private final String base = "inventory";
     private final String user = "root";
     private final String password = "root";
-    private final String url = "jdbc:mysql://localhost:3306/"+base;
+    private final String url = "jdbc:mysql://localhost:3306/"+base+"?useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
     private Connection con = null;
     
     public Connection getConnection(){

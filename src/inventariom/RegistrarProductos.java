@@ -1,13 +1,23 @@
 package inventariom;
 
-
+import java.sql.Connection;
 import clases.Producto;
 import com.mysql.cj.xdevapi.PreparableStatement;
-import com.sun.jdi.connect.spi.Connection;
+import com.toedter.calendar.JDateChooser;
+import java.sql.PreparedStatement;
+import java.sql.ResultSetMetaData;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JComboBox;
+import javax.swing.JOptionPane;
+import javax.swing.JTextField;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JInternalFrame.java to edit this template
@@ -19,8 +29,6 @@ import java.util.logging.Logger;
  */
 public class RegistrarProductos extends javax.swing.JInternalFrame {
 
-  
-   
     public RegistrarProductos() {
         initComponents();
     }
@@ -35,59 +43,31 @@ public class RegistrarProductos extends javax.swing.JInternalFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
+        jPanel2 = new javax.swing.JPanel();
         txtNombreP = new javax.swing.JTextField();
-        jLabel3 = new javax.swing.JLabel();
-        txtCantidad = new javax.swing.JTextField();
-        jLabel5 = new javax.swing.JLabel();
         txtPrecio = new javax.swing.JTextField();
-        jLabel4 = new javax.swing.JLabel();
-        txtFecha = new com.toedter.calendar.JDateChooser();
-        jLabel6 = new javax.swing.JLabel();
-        cbxTipo = new javax.swing.JComboBox<>();
         jLabel7 = new javax.swing.JLabel();
+        btnGuardar = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
+        txtFecha = new com.toedter.calendar.JDateChooser();
+        cbxTipo = new javax.swing.JComboBox<>();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
         txtFechaCaducidad = new com.toedter.calendar.JDateChooser();
         jLabel8 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        txtCantidad = new javax.swing.JTextField();
         txtProveedor = new javax.swing.JTextField();
-        btnGuardar = new javax.swing.JButton();
 
         setClosable(true);
         setIconifiable(true);
-        setMaximizable(true);
-        setResizable(true);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabel1.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
-        jLabel1.setText("Registrar Productos");
-
-        jLabel2.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        jLabel2.setText("Nombre producto");
-
-        jLabel3.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        jLabel3.setText("Cantidad");
-
-        jLabel5.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        jLabel5.setText("Precio");
-
-        jLabel4.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        jLabel4.setText("Fecha de Ingreso ");
-
-        txtFecha.setDateFormatString("yyyy-MM-dd");
-
-        jLabel6.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        jLabel6.setText("Tipo de producto");
-
-        cbxTipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Perecible", "No perecible" }));
-
         jLabel7.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
         jLabel7.setText("Fecha de caducidad");
-
-        txtFechaCaducidad.setDateFormatString("yyyy-MM-dd");
-
-        jLabel8.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
-        jLabel8.setText("Proveedor");
 
         btnGuardar.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         btnGuardar.setText("Guardar ");
@@ -97,82 +77,119 @@ public class RegistrarProductos extends javax.swing.JInternalFrame {
             }
         });
 
+        jLabel2.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        jLabel2.setText("Nombre producto");
+
+        txtFecha.setDateFormatString("yyyy-MM-dd");
+
+        cbxTipo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione", "Perecible", "No perecible" }));
+
+        jLabel5.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        jLabel5.setText("Precio");
+
+        jLabel1.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
+        jLabel1.setText("Registrar Productos");
+
+        jLabel4.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        jLabel4.setText("Fecha de Ingreso ");
+
+        txtFechaCaducidad.setDateFormatString("yyyy-MM-dd");
+
+        jLabel8.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        jLabel8.setText("Proveedor");
+
+        jLabel3.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        jLabel3.setText("Cantidad");
+
+        jLabel6.setFont(new java.awt.Font("Arial", 0, 18)); // NOI18N
+        jLabel6.setText("Tipo de producto");
+
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txtNombreP, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(txtCantidad)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel2)
+                                    .addComponent(jLabel3))
+                                .addGap(97, 97, 97))
+                            .addComponent(jLabel5)
+                            .addComponent(txtPrecio))
+                        .addGap(175, 175, 175)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txtProveedor)
+                            .addComponent(jLabel8)
+                            .addComponent(jLabel4)
+                            .addComponent(txtFecha, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel6)
+                            .addComponent(cbxTipo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel7)
+                            .addComponent(txtFechaCaducidad, javax.swing.GroupLayout.PREFERRED_SIZE, 235, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(221, 221, 221))))
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(220, 220, 220)
+                .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1)
+                .addGap(58, 58, 58)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel4))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(txtNombreP)
+                    .addComponent(txtFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(46, 46, 46)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel6))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(cbxTipo)
+                    .addComponent(txtCantidad, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(45, 45, 45)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(jLabel7))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(txtPrecio)
+                    .addComponent(txtFechaCaducidad, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(39, 39, 39)
+                .addComponent(jLabel8)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtProveedor, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnGuardar)
+                .addContainerGap(12, Short.MAX_VALUE))
+        );
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel1)
-                .addGap(264, 264, 264))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(txtNombreP))
-                    .addComponent(txtPrecio)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 6, Short.MAX_VALUE)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(txtCantidad, javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(jPanel1Layout.createSequentialGroup()
-                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jLabel2)
-                                        .addComponent(jLabel3))
-                                    .addGap(97, 97, 97)))
-                            .addComponent(jLabel5))))
-                .addGap(175, 175, 175)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(txtProveedor)
-                    .addComponent(jLabel8)
-                    .addComponent(jLabel4)
-                    .addComponent(txtFecha, javax.swing.GroupLayout.DEFAULT_SIZE, 235, Short.MAX_VALUE)
-                    .addComponent(jLabel6)
-                    .addComponent(cbxTipo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel7)
-                    .addComponent(txtFechaCaducidad, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(112, 112, 112))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(278, 278, 278)
-                .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1)
-                .addGap(58, 58, 58)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel4))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(txtNombreP, javax.swing.GroupLayout.DEFAULT_SIZE, 45, Short.MAX_VALUE)
-                    .addComponent(txtFecha, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(46, 46, 46)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(jLabel6))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(cbxTipo, javax.swing.GroupLayout.DEFAULT_SIZE, 45, Short.MAX_VALUE)
-                    .addComponent(txtCantidad))
-                .addGap(45, 45, 45)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
-                    .addComponent(jLabel7))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(txtPrecio, javax.swing.GroupLayout.DEFAULT_SIZE, 45, Short.MAX_VALUE)
-                    .addComponent(txtFechaCaducidad, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(39, 39, 39)
-                .addComponent(jLabel8)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtProveedor, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
-                .addComponent(btnGuardar)
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(30, 30, 30))
         );
 
@@ -191,13 +208,12 @@ public class RegistrarProductos extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-       Producto obProducto = new Producto();
         try {
-            obProducto.InsertarProducto(txtNombreP, txtCantidad, txtPrecio, txtFecha, cbxTipo, txtFechaCaducidad, txtProveedor);
-        } catch (SQLException ex) {
+            InsertarProducto();
+        } catch (ParseException ex) {
             Logger.getLogger(RegistrarProductos.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
     }//GEN-LAST:event_btnGuardarActionPerformed
 
 
@@ -213,6 +229,7 @@ public class RegistrarProductos extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JTextField txtCantidad;
     private com.toedter.calendar.JDateChooser txtFecha;
     private com.toedter.calendar.JDateChooser txtFechaCaducidad;
@@ -221,6 +238,46 @@ public class RegistrarProductos extends javax.swing.JInternalFrame {
     private javax.swing.JTextField txtProveedor;
     // End of variables declaration//GEN-END:variables
 
+    public void InsertarProducto() throws ParseException {
 
+        try {
+            PreparedStatement ps = null;
+            Conexion conn = new Conexion();
+            Connection con = conn.getConnection();
+            String query = "INSERT INTO productos (nombre_producto, cantidad, precio, fecha_ingreso, tipo, fecha_caducidad, proveedor) VALUES(?,?,?,?,?,?,?);";
+
+            ps = con.prepareStatement(query);
+
+            SimpleDateFormat mysqlsdf = new SimpleDateFormat("yyyy-MM-dd");
+            String mysqlDateString = mysqlsdf.format(txtFecha.getDate());
+            String mysqlDateString2 = mysqlsdf.format(txtFechaCaducidad.getDate());
+            String nombreProducto = (txtNombreP.getText());
+            String cantidad = (txtCantidad.getText());
+            if (!cantidad.matches("\\d+")) {
+                JOptionPane.showMessageDialog(null, "La cantidad debe ser un valor numérico.");
+                return;
+            }
+            String precio = (txtPrecio.getText());
+            String valorSeleccionado = cbxTipo.getSelectedItem().toString();
+            String proveedor = (txtProveedor.getText());
+
+            ps.setString(1, nombreProducto);
+            ps.setInt(2, Integer.parseInt(cantidad));
+            ps.setFloat(3, Float.parseFloat(precio));
+            ps.setString(4, mysqlDateString);
+            ps.setString(5, valorSeleccionado);
+            ps.setString(6, mysqlDateString2);
+            ps.setString(7, proveedor);
+
+            ps.execute();
+
+            JOptionPane.showMessageDialog(null, "Se realizó el registro correctamente!");
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error al completar el registro, error:" + e.toString());
+
+        }
+
+    }
 
 }

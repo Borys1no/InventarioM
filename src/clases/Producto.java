@@ -13,11 +13,17 @@ import javax.swing.JTextField;
 import java.sql.CallableStatement;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.text.SimpleDateFormat;
+
 /**
  *
  * @author borys
  */
 public class Producto {
+
     String Nombre_producto;
     Integer Cantidad;
     Float Precio;
@@ -26,7 +32,7 @@ public class Producto {
     Date Fecha_caducidad;
     String Proveedor;
 
-  /*  public Producto(String Nombre_producto, Integer Cantidad, Float Precio, Date Fecha_ingreso, String Tipo_producto, Date Fecha_caducidad, String Proveedor) {
+    /*  public Producto(String Nombre_producto, Integer Cantidad, Float Precio, Date Fecha_ingreso, String Tipo_producto, Date Fecha_caducidad, String Proveedor) {
         this.Nombre_producto = Nombre_producto;
         this.Cantidad = Cantidad;
         this.Precio = Precio;
@@ -35,8 +41,7 @@ public class Producto {
         this.Fecha_caducidad = Fecha_caducidad;
         this.Proveedor = Proveedor;
     }
-*/
-
+     */
     public String getNombre_producto() {
         return Nombre_producto;
     }
@@ -92,8 +97,8 @@ public class Producto {
     public void setProveedor(String Proveedor) {
         this.Proveedor = Proveedor;
     }
-    
-    public void InsertarProducto(JTextField NombreProducto, JTextField Cantidad, JTextField Precio, JDateChooser FechaIngreso, JComboBox TipoProducto, JDateChooser FechaCaducidad, JTextField Proveedor ) throws SQLException{
+
+    public void InsertarProducto(JTextField NombreProducto, JTextField Cantidad, JTextField Precio, JDateChooser FechaIngreso, JComboBox TipoProducto, JDateChooser FechaCaducidad, JTextField Proveedor) throws SQLException {
         setNombre_producto(NombreProducto.getText());
         setCantidad(Integer.parseInt(Cantidad.getText()));
         setPrecio(Float.parseFloat(Precio.getText()));
@@ -101,35 +106,39 @@ public class Producto {
         setTipo_producto(TipoProducto.getSelectedItem().toString());
         setFecha_caducidad(FechaCaducidad.getDate());
         setProveedor(Proveedor.getText());
-        
-        Conexion obConexion = new Conexion();
-         String query ="INSER INTO productos (nombre_producto, cantidad, precio, fecha_ingreso, tipo, fecha_caducidad, proveedor) values(?, ?, ?, ?, ?, ?, ?);";
-         
-         try {
-             CallableStatement cs = obConexion.getConnection().prepareCall(query);
-             cs.setString(1, getNombre_producto());
-             cs.setInt(2, getCantidad());
-             cs.setFloat(3, getPrecio());
-             cs.setDate(4, (java.sql.Date) getFecha_ingreso());
-             cs.setString(5, getTipo_producto());
-             cs.setDate(6, (java.sql.Date) getFecha_caducidad());
-             cs.setString(7, getProveedor());
-             
-             cs.execute();
-              
-             JOptionPane.showMessageDialog(null, "Se realizó el registro correctamente!");
-             
-         }catch (Exception e){
-             JOptionPane.showMessageDialog(null, "Error al completar el registro, error:"+e.toString());
-             
-         }
-        
-        
-        
-        
+
+        try {
+            Conexion obConexion = new Conexion();
+            String query = "INSER INTO productos (nombre_producto, cantidad, precio, fecha_ingreso, tipo, fecha_caducidad, proveedor) values(?, ?, ?, ?, ?, ?, ?);";
+
+            PreparedStatement ps = null;
+            Conexion conn = new Conexion();
+            Connection con = conn.getConnection();
+
+            ps = con.prepareStatement(query);
+            ResultSet rs = ps.executeQuery(query);
+
+            SimpleDateFormat mysqlsdf = new SimpleDateFormat("yyyy-MM-dd");
+            String mysqlDateString = mysqlsdf.format(Fecha_ingreso.getDate());
+            String mysqlDateString2 = mysqlsdf.format(Fecha_caducidad.getDate());
+
+            ps.setString(1, getNombre_producto());
+            ps.setInt(2, getCantidad());
+            ps.setFloat(3, getPrecio());
+            ps.setString(4, mysqlDateString);
+            ps.setString(5, getTipo_producto());
+            ps.setString(6, mysqlDateString2);
+            ps.setString(7, getProveedor());
+
+            ps.execute();
+
+            JOptionPane.showMessageDialog(null, "Se realizó el registro correctamente!");
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error al completar el registro, error:" + e.toString());
+
+        }
+
     }
-    
-    
-    
-    
+
 }

@@ -5,10 +5,8 @@ package inventariom;
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 
-/**
- *
- * @author borys
- */
+import java.sql.*;
+import javax.swing.JOptionPane;
 public class Login extends javax.swing.JFrame {
 
     /**
@@ -71,7 +69,7 @@ public class Login extends javax.swing.JFrame {
                             .addComponent(jLabel5)
                             .addComponent(jLabel4)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(89, 89, 89)
+                        .addGap(96, 96, 96)
                         .addComponent(btnIniciar, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(70, Short.MAX_VALUE))
         );
@@ -115,7 +113,30 @@ public class Login extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnIniciarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIniciarActionPerformed
-        // TODO add your handling code here:
+        String sql ="SELECT * FROM usuario where usuario =? and password = ?";
+        
+        try{
+            PreparedStatement ps = null;
+            Conexion conn = new Conexion();
+            Connection con = conn.getConnection();
+            ps =con.prepareStatement(sql);
+            ps.setString(1, txtUsuario.getText());
+            ps.setString(2, new String(txtPass.getPassword()));
+            
+            ResultSet rs = ps.executeQuery();
+            if(rs.next()){
+                JOptionPane.showMessageDialog(null, "Bienvenido"+txtUsuario.getText(), "Inicio de sesion exitoso!",JOptionPane.PLAIN_MESSAGE);
+                new Principal().setVisible(true);
+                dispose();
+            }else {
+                JOptionPane.showMessageDialog(null, "El usuario y/o contrasena no son validos", "Error al iniciar sesion!",JOptionPane.ERROR_MESSAGE);
+            }
+            con.close();
+        }
+        catch(Exception e){
+            JOptionPane.showMessageDialog(null, e);
+            
+        }
     }//GEN-LAST:event_btnIniciarActionPerformed
 
     /**
