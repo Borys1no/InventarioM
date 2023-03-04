@@ -24,6 +24,7 @@ import java.text.SimpleDateFormat;
  */
 public class Producto {
 
+    Integer id_productos;
     String Nombre_producto;
     Integer Cantidad;
     Float Precio;
@@ -32,16 +33,18 @@ public class Producto {
     Date Fecha_caducidad;
     String Proveedor;
 
-    /*  public Producto(String Nombre_producto, Integer Cantidad, Float Precio, Date Fecha_ingreso, String Tipo_producto, Date Fecha_caducidad, String Proveedor) {
-        this.Nombre_producto = Nombre_producto;
-        this.Cantidad = Cantidad;
-        this.Precio = Precio;
-        this.Fecha_ingreso = Fecha_ingreso;
-        this.Tipo_producto = Tipo_producto;
-        this.Fecha_caducidad = Fecha_caducidad;
-        this.Proveedor = Proveedor;
+   
+
+   
+
+    public Integer getId_productos() {
+        return id_productos;
     }
-     */
+
+    public void setId_productos(Integer Id_productos) {
+        this.id_productos = Id_productos;
+    }
+
     public String getNombre_producto() {
         return Nombre_producto;
     }
@@ -98,47 +101,58 @@ public class Producto {
         this.Proveedor = Proveedor;
     }
 
-    public void InsertarProducto(JTextField NombreProducto, JTextField Cantidad, JTextField Precio, JDateChooser FechaIngreso, JComboBox TipoProducto, JDateChooser FechaCaducidad, JTextField Proveedor) throws SQLException {
-        setNombre_producto(NombreProducto.getText());
-        setCantidad(Integer.parseInt(Cantidad.getText()));
-        setPrecio(Float.parseFloat(Precio.getText()));
-        setFecha_ingreso(FechaIngreso.getDate());
-        setTipo_producto(TipoProducto.getSelectedItem().toString());
-        setFecha_caducidad(FechaCaducidad.getDate());
-        setProveedor(Proveedor.getText());
+    public void ModificarProductos(JTextField pId, JTextField pNombreProducto, JTextField pCantidad, JTextField pPrecio,
+            JComboBox pTipo, JDateChooser pFechaCaducidad, JTextField pProveedor) {
 
+        setId_productos(Integer.parseInt(pId.getText()));
+        setNombre_producto(pNombreProducto.getText());
+        setCantidad(Integer.parseInt(pCantidad.getText()));
+        setPrecio(Float.parseFloat(pPrecio.getText()));
+        setTipo_producto((String) pTipo.getSelectedItem());
+        setFecha_caducidad(pFechaCaducidad.getDate());
+        setProveedor(pProveedor.getText());
+        
+        
+        Conexion obConexion = new Conexion();
+        String query = "UPDATE productos SET nombre_producto=?, cantidad=?, precio=?, tipo=?, fecha_caducidad=?, proveedor=? WHERE id_productos=?";
+        
         try {
-            Conexion obConexion = new Conexion();
-            String query = "INSER INTO productos (nombre_producto, cantidad, precio, fecha_ingreso, tipo, fecha_caducidad, proveedor) values(?, ?, ?, ?, ?, ?, ?);";
-
-            PreparedStatement ps = null;
-            Conexion conn = new Conexion();
-            Connection con = conn.getConnection();
-
-            ps = con.prepareStatement(query);
-            ResultSet rs = ps.executeQuery(query);
-
-            SimpleDateFormat mysqlsdf = new SimpleDateFormat("yyyy-MM-dd");
-            String mysqlDateString = mysqlsdf.format(Fecha_ingreso.getDate());
-            String mysqlDateString2 = mysqlsdf.format(Fecha_caducidad.getDate());
-
-            ps.setString(1, getNombre_producto());
-            ps.setInt(2, getCantidad());
-            ps.setFloat(3, getPrecio());
-            ps.setString(4, mysqlDateString);
-            ps.setString(5, getTipo_producto());
-            ps.setString(6, mysqlDateString2);
-            ps.setString(7, getProveedor());
-
-            ps.execute();
-
-            JOptionPane.showMessageDialog(null, "Se realizó el registro correctamente!");
-
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Error al completar el registro, error:" + e.toString());
-
+            CallableStatement cs = obConexion.getConnection().prepareCall(query);
+            cs.setString(1, getNombre_producto());
+            cs.setInt(2, getCantidad());
+            cs.setFloat(3, getPrecio());
+            cs.setString(4, getTipo_producto());
+            cs.setDate(5, new java.sql.Date(getFecha_caducidad().getTime()));
+            cs.setString(6, getProveedor());
+            cs.setInt(7, getId_productos());
+            
+            cs.execute();
+            
+            JOptionPane.showMessageDialog(null, "Modificacion Exitosa!");
+            
+            
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error al modificar, error:"+e.toString());
         }
-
+    }
+    
+    
+    public void EliminarProducto(JTextField PIde){
+        setId_productos(Integer.parseInt(PIde.getText()));
+        Conexion obConexion = new Conexion();
+        String query="DELETE FROM productos WHERE id_productos=?";
+        
+        try {
+            CallableStatement cs = obConexion.getConnection().prepareCall(query);
+            cs.setInt(1, getId_productos());
+            cs.execute();
+            
+            JOptionPane.showMessageDialog(null, "Se elimino correctamente");
+            
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Error al eliminar, error:"+e.toString());
+        }
     }
 
 }
+

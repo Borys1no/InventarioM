@@ -16,6 +16,7 @@ public class Principal extends javax.swing.JFrame {
      */
     public Principal() {
         initComponents();
+        this.setLocationRelativeTo(null);
     }
 
     /**
@@ -32,7 +33,6 @@ public class Principal extends javax.swing.JFrame {
         jMenu2 = new javax.swing.JMenu();
         OpProductos = new javax.swing.JMenuItem();
         OpAgg = new javax.swing.JMenuItem();
-        OpInventario = new javax.swing.JMenuItem();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem6 = new javax.swing.JMenuItem();
         jMenuItem7 = new javax.swing.JMenuItem();
@@ -54,6 +54,7 @@ public class Principal extends javax.swing.JFrame {
         );
 
         jMenuBar1.setBackground(new java.awt.Color(43, 144, 200));
+        jMenuBar1.setForeground(new java.awt.Color(51, 51, 51));
 
         jMenu2.setText("Productos");
         jMenu2.addActionListener(new java.awt.event.ActionListener() {
@@ -78,9 +79,6 @@ public class Principal extends javax.swing.JFrame {
         });
         jMenu2.add(OpAgg);
 
-        OpInventario.setText("Inventario Productos");
-        jMenu2.add(OpInventario);
-
         jMenuBar1.add(jMenu2);
 
         jMenu1.setText("Salida");
@@ -93,7 +91,7 @@ public class Principal extends javax.swing.JFrame {
         jMenuItem6.setText("Registrar Salida");
         jMenu1.add(jMenuItem6);
 
-        jMenuItem7.setText("Inventario Salida");
+        jMenuItem7.setText("Inventario");
         jMenu1.add(jMenuItem7);
 
         jMenuBar1.add(jMenu1);
@@ -186,7 +184,6 @@ public class Principal extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem OpAgg;
-    private javax.swing.JMenuItem OpInventario;
     private javax.swing.JMenuItem OpProductos;
     private javax.swing.JPanel PnlEscritorio;
     private javax.swing.JMenu jMenu1;
