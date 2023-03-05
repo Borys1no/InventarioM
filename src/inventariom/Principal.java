@@ -1,10 +1,13 @@
 package inventariom;
 
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-
 /**
  *
  * @author borys
@@ -34,8 +37,8 @@ public class Principal extends javax.swing.JFrame {
         OpProductos = new javax.swing.JMenuItem();
         OpAgg = new javax.swing.JMenuItem();
         jMenu1 = new javax.swing.JMenu();
-        jMenuItem6 = new javax.swing.JMenuItem();
-        jMenuItem7 = new javax.swing.JMenuItem();
+        RegistrarSalida = new javax.swing.JMenuItem();
+        MenuInventario = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
         jMenuItem4 = new javax.swing.JMenuItem();
         jMenuItem5 = new javax.swing.JMenuItem();
@@ -88,17 +91,32 @@ public class Principal extends javax.swing.JFrame {
             }
         });
 
-        jMenuItem6.setText("Registrar Salida");
-        jMenu1.add(jMenuItem6);
+        RegistrarSalida.setText("Registrar Salida");
+        RegistrarSalida.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                RegistrarSalidaActionPerformed(evt);
+            }
+        });
+        jMenu1.add(RegistrarSalida);
 
-        jMenuItem7.setText("Inventario");
-        jMenu1.add(jMenuItem7);
+        MenuInventario.setText("Inventario");
+        MenuInventario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MenuInventarioActionPerformed(evt);
+            }
+        });
+        jMenu1.add(MenuInventario);
 
         jMenuBar1.add(jMenu1);
 
         jMenu3.setText("Opciones");
 
         jMenuItem4.setText("Configuracion");
+        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem4ActionPerformed(evt);
+            }
+        });
         jMenu3.add(jMenuItem4);
 
         jMenuItem5.setText("Cerrar Sesion");
@@ -127,13 +145,13 @@ public class Principal extends javax.swing.JFrame {
         ListaProductos viewWindow = new ListaProductos();
         PnlEscritorio.add(viewWindow);
         viewWindow.show();
-        
-        
+
+
     }//GEN-LAST:event_OpProductosActionPerformed
 
     private void jMenu2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu2ActionPerformed
         // TODO add your handling code here:
-        
+
     }//GEN-LAST:event_jMenu2ActionPerformed
 
     private void OpAggActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OpAggActionPerformed
@@ -146,6 +164,29 @@ public class Principal extends javax.swing.JFrame {
     private void jMenu1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jMenu1ActionPerformed
+
+    private void RegistrarSalidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RegistrarSalidaActionPerformed
+        try {
+            Salida viewWindow = new Salida();
+            PnlEscritorio.add(viewWindow);
+            viewWindow.show();
+        } catch (SQLException ex) {
+            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_RegistrarSalidaActionPerformed
+
+    private void MenuInventarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuInventarioActionPerformed
+        InventarioSalida viewWindow = new InventarioSalida();
+        PnlEscritorio.add(viewWindow);
+        viewWindow.show();
+
+    }//GEN-LAST:event_MenuInventarioActionPerformed
+
+    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+        ListaUsuario viewWindow = new ListaUsuario();
+        PnlEscritorio.add(viewWindow);
+        viewWindow.show();
+    }//GEN-LAST:event_jMenuItem4ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -183,16 +224,16 @@ public class Principal extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem MenuInventario;
     private javax.swing.JMenuItem OpAgg;
     private javax.swing.JMenuItem OpProductos;
     private javax.swing.JPanel PnlEscritorio;
+    private javax.swing.JMenuItem RegistrarSalida;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
-    private javax.swing.JMenuItem jMenuItem6;
-    private javax.swing.JMenuItem jMenuItem7;
     // End of variables declaration//GEN-END:variables
 }
