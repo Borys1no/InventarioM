@@ -57,8 +57,6 @@ public class ListaProductos extends javax.swing.JInternalFrame {
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tbProductos = new javax.swing.JTable();
-        txtIDE = new javax.swing.JTextField();
-        btnBuscar = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         btnConsultar = new javax.swing.JButton();
         btnEliminar = new javax.swing.JButton();
@@ -119,13 +117,6 @@ public class ListaProductos extends javax.swing.JInternalFrame {
         jScrollPane1.setViewportView(tbProductos);
 
         getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 90, 1010, 350));
-        getContentPane().add(txtIDE, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 30, 290, 40));
-
-        btnBuscar.setBackground(new java.awt.Color(43, 107, 200));
-        btnBuscar.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        btnBuscar.setForeground(new java.awt.Color(255, 255, 255));
-        btnBuscar.setText("Buscar");
-        getContentPane().add(btnBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(540, 30, 140, 40));
 
         btnConsultar.setBackground(new java.awt.Color(43, 107, 200));
         btnConsultar.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
@@ -309,7 +300,7 @@ public class ListaProductos extends javax.swing.JInternalFrame {
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1150, 90, 310, 490));
 
-        jLabel8.setFont(new java.awt.Font("Arial", 1, 24)); // NOI18N
+        jLabel8.setFont(new java.awt.Font("Arial", 1, 36)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(43, 107, 200));
         jLabel8.setText("Listado de Productos");
         getContentPane().add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 40, -1, -1));
@@ -358,7 +349,6 @@ public class ListaProductos extends javax.swing.JInternalFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnConsultar;
     private javax.swing.JButton btnEdGuardar;
     private javax.swing.JButton btnEliminar;
@@ -384,7 +374,6 @@ public class ListaProductos extends javax.swing.JInternalFrame {
     private javax.swing.JTextField txtEdNombreP;
     private javax.swing.JTextField txtEdPrecio;
     private javax.swing.JTextField txtEdProveedor;
-    private javax.swing.JTextField txtIDE;
     // End of variables declaration//GEN-END:variables
 
     //consulta

@@ -172,7 +172,7 @@ public class Login extends javax.swing.JFrame {
             }
             con.close();
         }
-        catch(Exception e){
+        catch(SQLException e){
             JOptionPane.showMessageDialog(null, e);
             
         }
